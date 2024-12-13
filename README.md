@@ -1,11 +1,11 @@
 # 🌎 WWE : World Wide Ewha
 
-### ✨ 프로젝트 소개
+## ✨ 프로젝트 소개
 _**World Wide Ewha**_<br>
 WWE는 2024학년도 2학기 이화여자대학교 오픈SW플랫폼 오소리팀에서 탄생한 플랫폼입니다.<br>
 교환학생/방문학생 등의 이유로 해외에 나가있는 학생들이 중고물품을 보다 쉽게 거래할 수 있도록 지원합니다.
 
-### ✨ 기능
+## ✨ 기능
 **WWE**가 제공하는 기능은 다음과 같습니다.
 ###### &nbsp;&nbsp;&nbsp;&nbsp;v1.0
 - 상품 등록 및 삭제 기능
@@ -13,7 +13,6 @@ WWE는 2024학년도 2학기 이화여자대학교 오픈SW플랫폼 오소리�
 - 대륙 별 상품 조회 기능
 - 상품 검색 기능
 
-<br>
 <br>
 
 ## 🧑🏻‍💻 팀원 소개
@@ -31,15 +30,45 @@ WWE는 2024학년도 2학기 이화여자대학교 오픈SW플랫폼 오소리�
 
 <br>
 
-## 🗂 기술 스택
+## 🛠️ 기술 스택
 <!-- 버전 명시 -->
 - Frontend: HTML, CSS, Javascript
 - Backend: Python, Flask
 - Database: Firebase
 - Version Control: GitHub
 
-<!-- ## 아키텍처 -->
+<br>
 
+## 📂 패키지 구조
+```
+📂 WWE
+├─ 📂 static                 ▶︎ 정적 파일들이 저장된 디렉토리
+│  ├─ 📄 css
+│  ├─ 📂 image
+│  └─ 📄 js
+├─ 📂 templates              ▶︎ Flask 템플릿 파일들을 보유한 디렉토리
+├─ 🐍 app.py                 ▶︎ Flask 애플리케이션의 메인 파일
+├─ 🐍 database.py            ▶︎ Firebase 데이터베이스
+├─ 📄 LICENSE
+└─ 📄 README.md 
+```
+
+## 프로젝트 시작
+```
+git clone https://github.com/Ewha-Ohsori/WWE.git
+cd WWE
+
+# 생성한 가상환경 이름
+conda activate OSWF
+
+# 설치
+flask --debug run
+```
+## ✨ Demo Video
+
+https://github.com/user-attachments/assets/1011cad5-a53f-4a2c-95f1-7e36d3cb0c14
+
+<br>
 
 ## 📝 Git Convention
 
@@ -78,68 +107,4 @@ WWE는 2024학년도 2학기 이화여자대학교 오픈SW플랫폼 오소리�
 |   fix    | 기능 수정 브랜치    |
 | refactor | 리팩토링 브랜치     |
 |  bugfix  | 버그 수정 브랜치    |
-
-## 패키지 구조
-```
-📂 WWE
-│  .gitignore
-│  app.py
-│  database.py
-│  LICENSE
-│  README.md
-│  
-├─ 📂 .github
-│   └─ PULL_REQUEST_TEMPLATE.md
-│
-├─ 📂 authentication
-│   └─ firebase_auth.json
-│
-├─ 📂 static
-│   ├─ all_reviews.css
-│   ├─ detail.css
-│   ├─ detail.js
-│   ├─ header.js
-│   ├─ index.css
-│   ├─ index.js
-│   ├─ login.css
-│   ├─ login.js
-│   ├─ mypage.css
-│   ├─ mypage.js
-│   ├─ register.css
-│   ├─ register.js
-│   ├─ reset.css
-│   ├─ review.css
-│   ├─ signup.css
-│   ├─ signup.js
-│   ├─ styles.css
-│   ├─ writereview.css
-│   ├─ writereview.js
-│   └─ 📂images   ▶️ 이미지 파일
-│
-├─ 📂 templates
-│   ├─ detail.html
-│   ├─ header.html
-│   ├─ index.html
-│   ├─ login.html
-│   ├─ mypage.html
-│   ├─ register.html
-│   ├─ review.html
-│   ├─ signup.html
-│   ├─ submit_item_result.html
-│   └─ writereview.html
-│
-└─ 📂 __pycache__
-```
-
-## 프로젝트 시작
-```
-git clone https://github.com/Ewha-Ohsori/WWE.git
-cd WWE
-conda activate OSWF # 생성한 가상환경 이름
-# 설치
-flask --debug run
-```
-### ✨ Demo Video
-
-https://github.com/user-attachments/assets/1011cad5-a53f-4a2c-95f1-7e36d3cb0c14
 
