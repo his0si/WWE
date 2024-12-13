@@ -139,6 +139,7 @@ conda activate OSWF # 생성한 가상환경 이름
 # 설치
 flask --debug run
 ```
-## 📚 기능 예시
-### 상품 등록하기  
-127.0.0.1/reg_items
+### ✨ Demo Video
+
+https://github.com/user-attachments/assets/1011cad5-a53f-4a2c-95f1-7e36d3cb0c14
+
