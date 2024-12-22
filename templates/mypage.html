@@ -1,0 +1,194 @@
+{% extends "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Page</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='mypage.css') }}"
+    />
+    {% endblock head %}
+  </head>
+  <body>
+    {% block main %}
+    <main data-is-own-page="{{ 'true' if is_own_page else 'false' }}">
+      <div class="profile-container">
+        <div class="profile-header">
+          <img
+            src="{{ url_for('static', filename='images/user_icon.png') }}"
+            alt="user_icon.png"
+          />
+          <div class="profile-info">
+            <h2>{{ seller.id }}</h2>
+            {% if seller.region %}
+            <p>{{ seller.region }}</p>
+            {% endif %}
+            <p>{{ seller.email }}</p>
+            {% if seller.phone %}
+            <p>{{ seller.phone }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="tab-menu">
+          <button class="tab active" onclick="showTab('wishlist')">
+            찜한 상품
+          </button>
+          <button class="tab" onclick="showTab('purchase-history')">
+            구매 내역
+          </button>
+          <button class="tab" onclick="showTab('sales-history')">
+            판매 내역
+          </button>
+          <button class="tab" onclick="showTab('review-overview')">
+            받은 리뷰
+          </button>
+        </div>
+
+        <!-- 찜한 상품 콘텐츠 -->
+        <div class="tab-content active" id="wishlist">
+          <div class="product-items">
+            {% for key, like in likes.items() %}
+            <div class="product-container">
+              <a
+                href="{{ url_for('view_item_detail', name=key) }}"
+                class="product-left"
+              >
+                <img
+                  src="{{ url_for('static', filename='images/' + like.img_path) }}"
+                  alt="{{ key }}"
+                />
+                <div class="product-info">
+                  <p class="product-name">{{ like.productName }}</p>
+                  <p class="product-desc">{{ like.description }}</p>
+                </div>
+              </a>
+              <div class="product-right product-right-wish">
+                <div class="product-bottom">
+                  <span
+                    class="sold-out {% if like.buyerId %}completed{% else %}available{% endif %}"
+                  >
+                    {% if like.buyerId %}거래완료{% else %}판매중{% endif %}
+                  </span>
+                  <p class="product-price">{{ like.price }}원</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- 구매 내역 콘텐츠 -->
+        <div class="tab-content" id="purchase-history">
+          <div class="product-items">
+            {% for purchase in purchases %}
+            <div class="product-container">
+              <a
+                href="{{ url_for('view_item_detail', name=purchase.productName) }}"
+                class="product-left"
+              >
+                <img
+                  src="{{ url_for('static', filename='images/' + purchase.img_path) }}"
+                  alt="{{ purchase.productName }}"
+                />
+                <div class="product-info">
+                  <p class="product-name">{{ purchase.productName }}</p>
+                  <p class="product-desc">{{ purchase.description }}</p>
+                </div>
+              </a>
+              <div class="product-right">
+                {% if is_own_page %}
+                <a
+                  href="{{ url_for('write_review', name=purchase.productName) }}"
+                  class="review-btn"
+                  >리뷰 남기기</a
+                >
+                {% endif %}
+                <div class="product-bottom">
+                  <p class="product-price">{{ purchase.price }}원</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- 판매 내역 콘텐츠 -->
+        <div class="tab-content" id="sales-history">
+          <div class="product-items">
+            {% for product in products %}
+            <div class="product-container">
+              <a
+                href="{{ url_for('view_item_detail', name=product.productName) }}"
+                class="product-left"
+              >
+                <img
+                  src="{{ url_for('static', filename='images/' + product.img_path) }}"
+                  alt="{{ product.productName }}"
+                />
+                <div class="product-info">
+                  <p class="product-name">{{ product.productName }}</p>
+                  <p class="product-desc">{{ product.description }}</p>
+                </div>
+              </a>
+              <div class="product-right">
+                {% if is_own_page %}
+                <div class="product-bottom">
+                  <button
+                    class="toggle-sale-status completed"
+                    data-product-name="{{ product.productName }}"
+                    onclick="clickSaleStatus(this, '{{ product.productName }}')"
+                  ></button>
+                  <p class="product-price">{{ product.price }}원</p>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- 리뷰 전체 조회 콘텐츠 -->
+        <div class="tab-content" id="review-overview">
+          <div class="product-items">
+            {% for review in reviews %}
+            <div class="product-container">
+              <a
+                href="{{ url_for('view_review', name=review.reviewId) }}"
+                class="product-left"
+              >
+                <img
+                  src="{{ url_for('static', filename='images/' + review.img_path) }}"
+                  alt="{{ review.reviewId }}"
+                />
+                <div class="product-info">
+                  <p class="review-username">{{ review.buyerId }}</p>
+                  <p class="product-name">{{ review.reviewId }}</p>
+                  <p class="review-text">{{ review.review }}</p>
+                  <div class="star-rating">
+                    {% for i in range(5) %}
+                    <span
+                      class="star {% if i < review.rate|int %} filled{% endif %}"
+                      >★</span
+                    >
+                    {% endfor %}
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </main>
+    {% endblock main %}
+  </body>
+  {% block script %}
+  <script src="{{ url_for('static', filename='mypage.js') }}"></script>
+  <script src="{{ url_for('static', filename='header.js') }}"></script>
+  {% endblock script %}
+</html>
