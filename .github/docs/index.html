@@ -1,0 +1,131 @@
+{% extends "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {% block head %}
+    <title>WWE</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='index.css') }}"
+    />
+    {% endblock head %}
+  </head>
+  <body>
+    {% block main %}
+    <main>
+      <img class="map" src="../static/images/temp-map.svg" />
+      <div class="home_container">
+        <form
+          class="home_form"
+          action="{{ url_for('get_data',query=request.args.get('query', ''), page=1) }}"
+          method="get"
+        >
+          <input
+            class="search_bar"
+            type="text"
+            name="query"
+            value="{{ request.args.get('query', '') }}"
+            placeholder="어떤 상품을 찾으시나요?"
+          />
+          <button class="serach_btn" type="submit">
+            <img src="../static/images/serach-btn.svg" />
+          </button>
+        </form>
+        <div class="home_items">
+          <h2>상품 전체 조회</h2>
+          <!-- <div class="whole_items"></div> -->
+          <div class="pagenation_container">
+            <p class="item_count">상품 전체 {{total}}개</p>
+            <div class="select-buttons" style="margin: 15px 0px">
+              <a
+                href="{{ url_for('get_data', continent='아시아') }}"
+                class="continent-btn select-btn {{ 'active' if request.args.get('continent') == '아시아' else '' }}"
+              >
+                아시아
+              </a>
+              <a
+                href="{{ url_for('get_data', continent='유럽') }}"
+                class="continent-btn select-btn {{ 'active' if request.args.get('continent') == '유럽' else '' }}"
+              >
+                유럽
+              </a>
+              <a
+                href="{{ url_for('get_data', continent='북아메리카') }}"
+                class="continent-btn select-btn {{ 'active' if request.args.get('continent') == '북아메리카' else '' }}"
+              >
+                북아메리카
+              </a>
+              <a
+                href="{{ url_for('get_data', continent='남아메리카') }}"
+                class="continent-btn select-btn {{ 'active' if request.args.get('continent') == '남아메리카' else '' }}"
+              >
+                남아메리카
+              </a>
+              <a
+                href="{{ url_for('get_data', continent='오세아니아') }}"
+                class="continent-btn select-btn {{ 'active' if request.args.get('continent') == '오세아니아' else '' }}"
+              >
+                오세아니아
+              </a>
+              <a
+                href="{{ url_for('get_data', continent='아프리카') }}"
+                class="continent-btn select-btn {{ 'active' if request.args.get('continent') == '아프리카' else '' }}"
+              >
+                아프리카
+              </a>
+            </div>
+            {% if total > 0 %}
+            <div class="whole_items">
+              {% for key, value in datas %}
+              <a href="{{ url_for('view_item_detail', name=key) }}">
+                <div class="item_container">
+                  <img
+                    src="static/images/{{value.img_path}}"
+                    alt="상품 이미지 사진"
+                  />
+                  <div class="region_container">
+                    <img src="../static/images/pin.svg" /><span
+                      >{{value.address}}</span
+                    >
+                  </div>
+                  <div class="tag_container">
+                    <span># {{value.nation}}</span
+                    ><span># {{value.state}}</span>
+                  </div>
+                  <span class="title">{{key}}</span>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+            <div class="page-wrap">
+              <div class="page-nation">
+                <ul>
+                  <li>
+                    {% for i in range(page_count)%}
+                    <a
+                      href="{{url_for('get_data', continent=request.args.get('continent', ''), query=request.args.get('query', ''), page=i+1)}}"
+                      color="black"
+                      >{{i+1}}</a
+                    >
+                    {% endfor %}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            {% else %}
+            <p>등록된 상품이 없습니다.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </main>
+    {% endblock main %} {% block script %}
+    <script src="{{ url_for('static', filename='header.js') }}"></script>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    {% endblock script %}
+  </body>
+</html>
